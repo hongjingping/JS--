@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 350px;
+            height: 350px;
+            margin: 100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+
+        .big {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 0;
+            left: 360px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+
+        .mask {
+            width: 175px;
+            height: 175px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="small">
+        <img src="images/small.webp" width="350" alt=""/>
+
+        <div class="mask"></div>
+    </div>
+    <div class="big">
+        <img src="images/big.jpg" width="800" alt=""/>
+    </div>
+</div>
+<script>
+    //1.鼠标放到small盒子中，黄色的盒子隐藏和显示
+        //1.1找到box，找到黄色的盒子
+            //最外层的大盒子
+        var box = document.getElementById("box");
+        var small = box.children[0];
+        var mask = small.children[1];
+        var big = box.children[1];
+        var bigImage = big.children[0];
+        //鼠标放到盒子中显示和隐藏mask
+        small.onmouseover=function(){
+            mask.style.display="block";
+            big.style.display = "block";
+        }
+        small.onmouseout=function(){
+            mask.style.display="none";
+            big.style.display = "none";
+
+        }
+    //-------------------------------------------------------------------------------------
+    //2.鼠标移动，mask的盒子也移动,设置mask的位置
+        small.onmousemove=function(e){
+            //e兼容浏览器
+            e = e || window.event;
+            //2.1设置盒子的位置，是在大盒子中移动的(鼠标的位置-外边大盒子边距离窗口的位置)
+            var x = e.pageX - box.offsetLeft;
+            var y = e.pageY - box.offsetTop;
+            //2.2设置鼠标在mask盒子的中间位置
+            // （此时鼠标在mask的左上角的位置）将盒子的位置减去盒子的一半，即可
+            x = x - mask.offsetWidth/2;
+            y = y - mask.offsetHeight/2;
+            //2.3让黄色的盒子始终显示在box中(如果小于0就显示在0的位置，如果大于0就正常显示)
+            //比较之后一定要赋值给x,y
+            x = x<0?0:x;//左上角x轴
+            y = y<0?0:y;//左上角y轴
+            x = x>box.offsetWidth-mask.offsetWidth?box.offsetWidth-mask.offsetWidth:x;//右下角的x轴不能超过盒子的宽度
+            y = y>box.offsetHeight-mask.offsetHeight?box.offsetHeight-mask.offsetHeight:y;//右下角的y轴不能超过盒子的高度
+            //设置位置的时候一定要加单位"px";
+            mask.style.left = x + "px";
+            mask.style.top  = y + "px";
+        //---------------------------------------------------------------------------------
+            //设置点击小图片的时候，大图片也在大盒子中显示(在第一部中设置大图片的显示和隐藏)
+            //黄色盒子移动的距离/黄色盒子能够移动的最大距离=大图片移动的距离/大图片能够移动的最大距离
+            //mask的最大距离
+            var maskMax = box.offsetWidth - mask.offsetWidth;
+            //大图片能够移动的最大距离（大图片的宽度-大盒子的宽度）
+            var bigImageMax = bigImage.offsetWidth-big.offsetWidth;
+            //大图片移动的距离
+            var spaceX = x / maskMax * bigImageMax;
+            var spaceY = y / maskMax * bigImageMax;
+            //设置大图片的位置(marginLeft，marginTop一定要大写，因为大图片没有设置定位，所以用margin来表示)
+            bigImage.style.marginLeft = -spaceX + "px";
+            bigImage.style.marginTop = -spaceY + "px";
+        }
+</script>
+</body>
+</html>

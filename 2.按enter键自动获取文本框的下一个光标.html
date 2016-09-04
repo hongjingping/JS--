@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<input type="text"/><br/>
+<script>
+    //按下鼠标的enter键的时候，直接获取下一个文本框的焦点
+    //找到所有的文本框
+    var inputs = document.getElementsByTagName("input");
+    for(var i=0;i<inputs.length;i++){
+        //获得每一个input标签
+        var input = inputs[i];
+        //给每一个input注册事件
+        input.onkeydown=function(e){
+           if(e.keyCode=13){
+               var nextTxt = this.nextElementSibling.nextElementSibling;
+               nextTxt.focus();
+           }
+        }
+    }
+</script>
+</body>
+</html>

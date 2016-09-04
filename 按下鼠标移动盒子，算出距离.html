@@ -1,0 +1,99 @@
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            height: 30px;
+            background: #036663;
+            border-bottom: 1px solid #369;
+            line-height: 30px;
+            padding-left: 30px;
+        }
+
+        .nav a {
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            text-decoration: none;
+
+        }
+
+        .d-box {
+            width: 400px;
+            height: 300px;
+            border: 5px solid #eee;
+            box-shadow: 2px 2px 2px 2px #666;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            background-color: white;
+        }
+
+        .hd {
+            width: 100%;
+            height: 25px;
+            background-color: #7c9299;
+            border-bottom: 1px solid #369;
+            line-height: 25px;
+            color: white;
+            cursor: move;
+        }
+
+        #box_close {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <a href="javascript:;" id="register">注册信息</a>
+</div>
+<div class="d-box" id="d_box">
+    <div class="hd" id="drop">注册信息 (可以拖拽)
+        <span id="box_close">【关闭】</span>
+    </div>
+    <div class="bd"></div>
+</div>
+<script>
+    //一，在盒子的顶部按下鼠标，拖动盒子在页面中移动
+    //1.给盒子的顶部注册鼠标按下的事件，可以计算出鼠标在盒子中的位置
+    //找到盒子
+    var d_box = document.getElementById("d_box");
+    //找到盒子顶部
+    var drop = document.getElementById("drop");
+    //给顶部注册鼠标按下的事件
+    drop.onmousedown=function(e){
+        //浏览器的兼容性
+        var e = e || window.event;
+        //计算鼠标的在盒子中的横向距离：spacex=鼠标在页面的位置-盒子在页面的位置
+        var spaceX = e.pageX - d_box .offsetLeft;
+        //计算鼠标在盒子中的纵向距离
+        var spaceY = e.pageY = d_box .offsetTop;
+        //鼠标不松手，可以将盒子拖拽，注册盒子的鼠标移动事件
+        //找到盒子，给盒子注册onmousemove事件
+        document.onmousemove=function(e){
+            //计算出盒子的位置=鼠标也页面的位置-鼠标在页面的横向距离
+            X = e.pageX - spaceX;
+            Y = e.pageY - spaceY;
+            //设置盒子的左边和上边的距离，一定要加单位
+            d_box.style.left = X +"px";
+            d_box.style.top =  Y + "px";
+        }
+    }
+    //此时鼠标粘在页面上松手还是可以移动，我们要清楚移动
+    document.onmouseup = function(){
+        document.onmousemove = null;
+    }
+</script>
+</body>
+</html>
