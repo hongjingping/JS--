@@ -1,0 +1,128 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {margin: 0;padding: 0;}
+        .box {
+            width: 300px;
+            height: 500px;
+            border: 1px solid red;
+            margin: 100px;
+            position: relative;
+
+            overflow: hidden;
+
+            /* 不让文字被选中 */
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+        }
+        .content {
+            padding: 5px 18px 5px 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+        }
+        .scroll {
+            width: 18px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #eee;
+        }
+        .bar {
+            height: 100px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: red;
+            border-radius:  10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="box" id="box">
+    <div class="content" id="content">
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+        我是文字内容，你是谁，你饿不饿是文字内容
+    </div>
+    <div class="scroll" id="scroll">
+        <div class="bar" id="bar"></div>
+    </div>
+</div>
+<script>
+    //1.取得元素
+    var box = document.getElementById("box");
+    var content = document.getElementById("content");
+    var scroll = document.getElementById("scroll");
+    var bar = document.getElementById("bar");
+    //1.滚动条的高度barHight:滚动条的高度/scroll的高度=盒子的高度/内容的高度;
+    var barHight = box.offsetHeight/content.offsetHeight*scroll.offsetHeight;
+    bar.style.height = barHight + "px";
+    //2.鼠标按下的时候，注册事件
+    bar.onmousedown=function(e){
+        //可以得到鼠标的pageY距离，和滚动条距离盒子上边的距离scroll.offsetTop;
+        // 两者相减就可以得到鼠标到滚动条上边的距离以及盒子到外边框的距离（这两个距离是固定的）
+        var  abLength = e.pageY - bar.offsetTop;
+        //注册盒子的移动事件
+        box.onmousemove = function (e){
+            //可以得出滚动条动态移动时候距离上边框的距离
+            var Y = e.pageY - abLength;
+            //判断y的值，上面不能<0,下面不能超过盒子的边框
+            Y = Y<0?0:Y;
+            Y = Y>scroll.offsetHeight-barHight?scroll.offsetHeight-barHight:Y;
+            //设置滚动条的位置
+            bar.style.top = Y + "px";
+
+            //设置内容跟随滚动条变化
+            //当前滚动的距离/滚动条可以滚动的最大距离 = 内容当前滚动的距离/内容最大可以滚动的距离
+            //滚动条滚动的最大距离
+            var scrollMax = scroll.offsetHeight - barHight;
+            //内容最大滚动的距离
+            var contentMax = content.offsetHeight - box.offsetHeight;
+            //当前内容滚动的最大的距离
+            var contentY = Y/scrollMax*contentMax;
+            //设置内容的高度
+            content.style.top = -contentY + "px";
+        }
+    }
+</script>
+</body>
+</html>

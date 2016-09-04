@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background: red;
+            position: absolute;
+        }
+
+    </style>
+</head>
+<body>
+
+<input type="button" id="btn1" value="奔跑400"/>
+<input type="button" id="btn2" value="奔跑800"/>
+
+<div id="box"></div>
+
+<script>
+    //点击按钮，移动盒子
+
+    //两个盒子，给没一个盒子都设置定时器
+
+    var btn1 = document.getElementById("btn1");
+    var btn2 = document.getElementById("btn2");
+    //按钮每一次点击都会创建一个timeId，在跑的过程中，一直按那个按钮，
+    // 会使得速度越来越快，所以我们要在每一次点击的时候都进行以此判断
+    // 如果存在之前的操作就进行删除，定义一个变量，保存每一次操作，第一次操作的时候为null
+
+    //当点击btn1的时候，盒子跑到400
+    btn1.onclick = function () {
+        var box = document.getElementById("box");
+        var box1 = document.getElementById("box1");
+        //封装函数之后，可以给多个盒子设置相同的事情
+        animate(box, 400);
+    }
+    //点击btn2 的时候跑到800
+    btn2.onclick = function () {
+        //找到盒子
+        var box = document.getElementById("box");
+        var box1 = document.getElementById("box1");
+        animate(box, 800)
+
+    }
+    //盒子进行反方向跑的时候，我们要对current / target进行判断，如果current < target,step是整数，累加；
+    // 如果current > target ,我们要对其就选相减，也就是step是负数
+    //我们可以通过current / target进行判断step是正还是负数
+    //设置两个形参：element对象，target目标
+    function animate(element, target) {//此时函数受到外面timerId的影响，
+        // 函数只想自己处理自己的事情，不受别人干扰，
+        // 我们可以将element看成一个对象，将timerId看成对象的属性
+        if (element.timerId) {
+            clearInterval(element.timerId);//清除之前的操作
+        }
+        var step = 10;//布径
+        //设置定时器
+        element.timerId = setInterval(function () {
+            //盒子当前的位置
+            var current = element.offsetLeft;//当前的位置
+
+
+            //判断step是正负,current < target +step;
+            // current > target -step
+            //step = Math.abs
+            if(current > target){
+                //设置步长,如果不设置绝对值的话，第一次是负数，第二次就是正数了，是不对的
+                step = -Math.abs(step);
+            };
+
+            //判断当前值是否小于目标值
+            //if (current < target) {
+            if(Math.abs(current-target)>Math.abs(step)){
+                //当前的位置等于不断地累加step
+                current += step;
+                //给box设置值,一定要加单位
+                element.style.left = current + "px";
+            } else {
+                //终止定时器。定义一个变量，变量在开始判断的时候已经定义
+                clearInterval(element.timerId);
+                //设置盒子的当前位置
+                element.style.left = target + "px";
+            }
+        }, 30);
+    }
+</script>
+</body>
+</html>
