@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background: yellowgreen;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+    //设置盒子动态移动位置，使用定时器工具
+    //找到盒子
+    var box = document.getElementById("box");
+    var left=0;//默认盒子的left是0
+    //给盒子设置定时器工具
+    var timeID=setInterval(function(){
+        //盒子想右移动，每次移动10px,需要设置一个变量，记录盒子移动的位置
+        left += 9;
+        //设置盒子的位置，一定要给盒子设置定位
+        box.style.left=left+"px";
+        //当盒子移动到600的时候就停下来
+        if(left>=600){
+            //给时间定义一个变量timeID，清楚定时器设置
+            clearInterval(timeID);
+            box.style.left="600px";
+        }
+
+    },30);
+</script>
+</body>
+</html>

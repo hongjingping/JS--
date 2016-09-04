@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background: hotpink;
+            opacity: 0;
+            filter: Alpha(opacity=0);
+        }
+        /*因为opacity有浏览器不支持现象，所以需要设置filter*/
+    </style>
+</head>
+<body>
+<div id="box"></div>
+<script>
+    //设置盒子的渐变，使用定时器功能
+    //找到盒子
+    var box = document.getElementById("box");
+    //设置透明度为一个变量
+    var opacity=0;
+    var timeID=setInterval(function(){
+        //设置透明度每次变化0.03
+        opacity += 0.002;
+        //设置盒子的透明度
+        box.style.opacity=opacity;
+        //浏览器的兼容透明度
+        box.style.filter='"Alpha(opacity"+"="+(opacity*100+")"';
+        //当透明度为1的时候，就停止，给定时器设置变量 timeID
+        if(opacity>=1){
+            clearInterval(timeID);
+        }
+    },1)
+</script>
+</body>
+</html>
