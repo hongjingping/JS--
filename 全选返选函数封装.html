@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        select {
+            width: 100px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<select name="" id="allSel" size="5" multiple="multiple">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+</select>
+<input type="button" value=">>" id="btn1"/>
+<input type="button" value="<<" id="btn2"/>
+<input type="button" value=">" id="btn3"/>
+<input type="button" value="<" id="btn4"/>
+<select name="" id="Sel" size="5" multiple="multiple"></select>
+<script src="common.js"></script>
+<script>
+    //注册按钮1事件
+    //通过id找到第一个btn按钮
+    var btn1 = my$("btn1");
+    //得到allSel
+    var allSel = my$("allSel");
+    //得到Sel
+    var Sel = my$("Sel");
+    //给函数传递参数，调用函数
+    allselected(btn1,allSel,Sel);
+    //给函数传递参数，调用函数
+    allselected(btn2,Sel,allSel);
+    //封装函数，设置形参btn,allSel,Sel
+    function allselected(btn,allSel,Sel){
+        //给第一个btn按钮注册单击事件
+        btn.onclick = function (){
+            //得到allSel中的option
+            for(var i=0;i<allSel.length;i++){
+                //得到每一个option
+                var option = allSel[i];
+                //通过appendChild()将option移到sel里面
+                Sel.appendChild(option);
+                //因为allSel.length是随着数据移动发生变化的，所以我们每一次设置i始终等于0，才会取得每一项
+                i--;
+            }
+        }
+    }
+
+
+    //点击 btn3注册单击事件，将allSel选中的数据移动到Sel中
+    var btn3 = my$("btn3");
+    selected(btn3,allSel,Sel);
+    var btn4 = my$("btn4");
+    selected(btn4,Sel,allSel)
+    //封装函数，设置形参btn,allSel,Sel
+    function selected(btn,allSel,Sel) {
+
+        //注册单击事件
+        btn.onclick = function () {
+            //遍历allsel中的数据，判断是否被选中
+            for (var i = 0; i < allSel.length; i++) {
+                //得到option
+                var option = allSel[i];
+                //判断是否被选中,选中的就要用option.selected
+                if (option.selected) {
+                    //移到Sel中
+                    Sel.appendChild(option);
+                    //allSel.length的长度动态变化，所以要始终保持i=0
+                    i--;
+                }
+            }
+        }
+
+    }
+
+</script>
+</body>
+</html>

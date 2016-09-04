@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        * {
+            margin:0;
+            padding:0;
+        }
+        li {
+            width: 80px;
+            height: 30px;
+            list-style: none;
+            float: left;
+            background:lightgray ;
+            margin-right: 2px;
+            line-height: 30px;
+            text-align: center;
+        }
+        a {
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<script>
+    //通过ul,li来
+    //创建ul
+    var lists=["首页","播客","博客","相册","关于","帮助"];
+    var ul = document.createElement("ul");
+    document.body.appendChild(ul);
+    ul.style.padding="40px";
+    //创建li
+        for(var i=0;i<lists.length;i++){
+            var list=lists[i];
+            var li = document.createElement("li");
+            ul.appendChild(li);
+            //创建a标签
+            li.innerHTML='<a href="javascript:void(0)">'+list+'</a>';
+            //创建a标签的点击事件,li.children是一个集合，link是一个伪数组,我们要取得里面的a标签，是li里面的
+
+            var link = li.children[0];
+            link.onclick=function(){
+                //先找到所有的li,背景色设置为默认的将当前点击的颜色变为粉色
+                var ul=document.body.lastElementChild;
+                //console.log(ul);
+                for(var i=0;i<ul.children.length;i++){
+                    var li = ul.children[i]
+                    li.style.backgroundColor="lightgray";
+                }
+                this.parentNode.style.backgroundColor="pink";
+            }
+        }
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    var arr = ["dfsdfdf","fhg","vbdfd","sgffd","gr","erth","ghdgg","fdg","afasdf"];
+    arr=arr.sort(function(a,b){
+        return a.length- b.length;
+    })
+    console.log(arr);
+    sort(array,fn);
+    //传入数组和函数作为参数，此时函数不调用，只是传一整个函数，此时不调用函数
+    function sort(array,fn){
+        //外层比较的轮数
+        for(var i=0;i<arr.length-1;i++){
+            //定义一个变量记录是否排序完毕
+            var isSorted = true;
+            //内存比较的次数
+            for(var j=0;j<arr.length-1-i;j++){
+                //比较两个数的大小，前面比后面大就调换位置,无论是数组还是字符串，
+                // 要使得该方法变得灵活，就需要改变一下if内部的判断条件
+                //要判断两个的大小，可以通过相减的方式来完成，我们就需要给这个if条件添加很多语句，
+                // 但是if里面没法添加，我们可以通过调用函数的方式(函数作用就是计算大小)
+                //判断里面的条件的时候才调用函数
+                if(fn(arr[j],arr[j+1])>0){
+                    //设置一个变量作为中间数，来调换位置
+                    var tmp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = tmp;
+                    isSorted = false;
+                }
+            }
+            if(isSorted){
+                break;
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

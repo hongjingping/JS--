@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>洪静萍</title>
+    <style>
+        select {
+            width: 100px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<select id="allSel" size="5" multiple="multiple">
+    <option>苹果</option>
+    <option>香蕉</option>
+    <option>西瓜</option>
+    <option>梨子</option>
+    <option>樱桃</option>
+</select>
+<input id="btn1" type="button" value=">>"/>
+<input id="btn2" type="button" value="<<"/>
+<input id="btn3" type="button" value=">"/>
+<input id="btn4" type="button" value="<"/>
+<select id="sel" size="5" multiple="multiple"></select>
+<script src="common.js"></script>
+<script>
+    //1.得到两个select
+    var allSel = my$("allSel");
+    var sel = my$("sel");
+    //2.找到option
+//    my$("btn3").onclick = function(){
+//    }
+
+   /* my$("btn3").onclick = function (){
+        moveElements(allSel,sel);
+    }
+    my$("btn4").onclick = function (){
+        moveElements(sel,allSel);
+    }*/
+
+
+    /*//封装
+    function moveElements(sourcesel,targetsel){
+        //遍历allSel.children
+        for(var i=0;i<sourcesel.children.length;i++){
+            //得到其中的option
+            var option = sourcesel.children[i];
+            //判断option是否被选中，如果选择就移到右边
+            if(option.selected){
+                targetsel.appendChild(option);//只有当变化时候，下边的i才需要变换
+                i--;//因为allSel.children.length的数值是随着循环，不断变化的，始终让i=0；取得我们要的值
+            }
+        }
+    }
+    */
+    my$("btn1").onclick = function (){
+        moveElements(allSel,sel,true);
+    }
+    my$("btn2").onclick = function (){
+        moveElements(sel,allSel,true);
+    }
+
+
+    my$("btn3").onclick = function (){
+        moveElements(allSel,sel,false);
+    }
+    my$("btn4").onclick = function (){
+        moveElements(sel,allSel,false);
+    }
+
+    //   //终极封装
+    function moveElements(sourcesel,targetsel,isAll){
+        //遍历allSel.children
+        for(var i=0;i<sourcesel.children.length;i++){
+            //得到其中的option
+            var option = sourcesel.children[i];
+            //判断option是否被选中，如果选择就移到右边
+            if(isAll || option.selected ){
+                targetsel.appendChild(option);//只有当变化时候，下边的i才需要变换
+                i--;//因为allSel.children.length的数值是随着循环，不断变化的，始终让i=0；取得我们要的值
+            }
+        }
+    }
+
+
+</script>
+</body>
+</html>

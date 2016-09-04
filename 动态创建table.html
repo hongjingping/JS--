@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>洪静萍</title>
+    <style>
+        table {
+            width: 500px;
+            height: 300px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        input {
+            width:20px;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    //创建按钮
+    var button = document.createElement("button");
+    document.body.appendChild(button);
+    button.innerText="create";
+    //给按钮注册事件，先要找到table,找到tbody,再创建tr
+    button.onclick = function(){
+        var tr = document.createElement("tr");
+        var table =document.body.lastElementChild;
+        table.lastElementChild.appendChild(tr);//此时tr里面没有东西，点击一下按钮，有默认的高度。所以会一直往上挤
+
+        //创建input选择框，td的选择框少于thead,长度要减去-1；
+        for(var i=0;i<theaders.length-1;i++){
+            var td = document.createElement("td");
+            tr.appendChild(td);
+            td.innerHTML='<input type="text">';
+        }
+
+        //创建最后一个确定、删除的td
+        var td = document.createElement("td");
+        tr.appendChild(td);
+        td.innerHTML='<a href="javascript:void(0)">确定</a> <a href="javascript:void(0)">删除</a>'
+    }
+
+    var theaders=[" 姓名","部门","工资","操作"];
+    var datas = [
+        {"name":"小王","deparement":"行政","salary":"1000"},
+        {"name":"小吴","deparement":"行政","salary":"1000"},
+        {"name":"小花","deparement":"行政","salary":"1000"},
+        {"name":"小西","deparement":"行政","salary":"1000"}
+    ]
+    getTable(document.body,theaders,datas);
+    function getTable(parentNode,theaders,datas){
+        var table = document.createElement("table");
+        parentNode.appendChild(table);
+        table.border="1px";
+        table.cellSpacing=0;
+        table.cellpadding=0;
+        //2.创建表头
+        var thead = document.createElement("thead");
+        table.appendChild(thead);
+        //创建tr
+        var tr = document.createElement("tr");
+        thead.appendChild(tr);
+        tr.style.height="50px";
+        tr.style.backgroundColor="lightgray";
+
+        //创建th,将表头放到数组里面。使用for循环
+        for(var i=0;i<theaders.length;i++){
+            var theader = theaders[i];
+            var th = document.createElement("th");
+            tr.appendChild(th);
+            th.innerText=theader;
+        }
+        getTbody(table,datas);
+
+    }
+
+    function getTbody(table,datas){
+        //3.创建表体,
+        var tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+
+        //创建tr，遍历数据的数组
+        for(var i=0;i<datas.length;i++){
+            var data = datas[i];
+            var tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            tr.style.textAlign="center";
+            //创建td，遍历对象,td务必放到tr的for循环里面
+            for(var key in data){
+                var td = document.createElement("td");
+                tr.appendChild(td);
+                td.innerText=data[key];
+            }
+            //****创建删除键--最后一列td
+            var td = document.createElement("td");
+            tr.appendChild(td);
+            td.innerHTML='<a href="javascript:void(0)">删除</a>';
+            //注册事件
+            var link = td.children[0];
+            link.index = i;
+            link.onclick=function (){
+                var index = this.index;
+                datas.splice(index,1);
+            }
+        }
+
+    }
+
+</script>
+</body>
+</html>

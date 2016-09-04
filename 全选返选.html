@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        select {
+            width: 100px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+<select name="" id="allSel" size="5" multiple="multiple">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+</select>
+<input type="button" value=">>" id="btn1"/>
+<input type="button" value="<<" id="btn2"/>
+<input type="button" value=">" id="btn3"/>
+<input type="button" value="<" id="btn4"/>
+<select name="" id="Sel" size="5" multiple="multiple"></select>
+<script src="common.js"></script>
+<script>
+    //注册按钮1事件
+    //通过id找到第一个btn按钮
+    var btn1 = my$("btn1");
+    //得到allSel
+    var allSel = my$("allSel");
+    //得到Sel
+    var Sel = my$("Sel");
+    //给第一个btn按钮注册单击事件
+    btn1.onclick = function (){
+        //得到allSel中的option
+        for(var i=0;i<allSel.length;i++){
+            //得到每一个option
+            var option = allSel[i];
+            //通过appendChild()将option移到sel里面
+            Sel.appendChild(option);
+            //因为allSel.length是随着数据移动发生变化的，所以我们每一次设置i始终等于0，才会取得每一项
+            i--;
+        }
+    }
+
+    //从sel移动到allsel
+    //得到第二个button，
+    var btn2 = my$("btn2");
+    //注册单击事件
+    btn2.onclick=function(){
+        //遍历Sel中的每一个元素，得到option
+        for(var i=0;i<Sel.length;i++){
+            //得到Sel中的每一个option
+            var option = Sel[i];
+            //通过appendChild()将数据移到allSel中
+            allSel.appendChild(option);
+            //因为Sel.length是动态变化的，所以需要始终保持是i=0；
+            i--;
+        }
+    }
+
+
+    //点击 btn3注册单击事件，将allSel选中的数据移动到Sel中
+    var btn3 = my$("btn3");
+    //注册单击事件
+    btn3.onclick = function(){
+        //遍历allsel中的数据，判断是否被选中
+        for(var i=0;i<allSel.length;i++){
+            //得到option
+            var option = allSel[i];
+            //判断是否被选中,选中的就要用option.selected
+            if(option.selected){
+                //移到Sel中
+                Sel.appendChild(option);
+                //allSel.length的长度动态变化，所以要始终保持i=0
+                i--;
+            }
+        }
+    }
+
+
+    //点击btn4注册单击事件,将Sel中选中的选项移动allSel中
+    //找到btn4按钮
+    var btn4 = my$("btn4");
+    //给btn4注册单击事件
+    btn4.onclick = function (){
+        //遍历，得到Sel中的option
+        for(var i=0;i<Sel.length;i++){
+            //得到每一个option
+            var option = Sel[i];
+            //判断option是否被选中
+            if(option.selected){
+                //选中的就移动到allSel中
+                allSel.appendChild(option);
+                //因为Sel.length是移动的，所以我们要取到每一项，必须始终保持为0
+                i--;
+            }
+        }
+    }
+</script>
+</body>
+</html>
